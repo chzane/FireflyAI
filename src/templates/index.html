@@ -3,7 +3,7 @@
 
 <head>
     <title>Firefly AI</title>
-    <link href="./style/main.css" rel="stylesheet" type="text/css" />
+    <link href="{{ url_for('static', filename='style/main.css') }}" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
@@ -19,7 +19,7 @@
         </div>
     </div>
 
-    <script src="./script/main.js"></script>
+    <script src="{{ url_for('static', filename='script/main.js') }}"></script>
 </body>
 
 </html>

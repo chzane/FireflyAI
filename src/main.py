@@ -1,8 +1,9 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, url_for, render_template
+from flask_cors import CORS
 import json
 import random
 import requests
-from flask_cors import CORS
+
 
 app = Flask(__name__)
 
@@ -51,6 +52,9 @@ model_list = {
     ]
 }
 
+@app.route("/",  methods=['GET'])
+def home():
+    return render_template('index.html')
 
 @app.route('/new_chat', methods=['POST'])
 def new_chat():
@@ -59,12 +63,12 @@ def new_chat():
     prompt = model_list[model_key][1]
     chat_id = str(random.randint(100000000, 999999999))
 
-    with open('src/api/user.json', 'r') as user_file:
+    with open('conf/user.json', 'r') as user_file:
         user_data = json.load(user_file)
 
     user_data[chat_id] = [json.loads(prompt), model_key]
 
-    with open('src/api/user.json', 'w') as user_file:
+    with open('conf/user.json', 'w') as user_file:
         json.dump(user_data, user_file)
 
     return jsonify({
@@ -79,13 +83,13 @@ def chat():
     chat_id = req_data['chat_id']
     message = req_data['message']
 
-    with open('src/api/user.json', 'r') as user_file:
+    with open('conf/user.json', 'r') as user_file:
         user_data = json.load(user_file)
 
     chat_logs, model_key = user_data[chat_id]
     chat_logs.append({'role': 'user', 'content': message})
 
-    with open('src/api/user.json', 'w') as user_file:
+    with open('conf/user.json', 'w') as user_file:
         json.dump(user_data, user_file)
 
     model_key = model_list[model_key][0]
@@ -115,7 +119,7 @@ def chat():
     }
     chat_logs.append(new_message)
 
-    with open('src/api/user.json', 'w') as user_file:
+    with open('conf/user.json', 'w') as user_file:
         json.dump(user_data, user_file)
 
     return jsonify(new_message)
