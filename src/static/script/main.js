@@ -1,12 +1,8 @@
 var myHeaders = new Headers();
-myHeaders.append("User-Agent", "Apifox/1.0.0 (https://apifox.com)");
 myHeaders.append("Content-Type", "application/json");
-myHeaders.append("Accept", "*/*");
-myHeaders.append("Host", "127.0.0.1:5000");
-myHeaders.append("Connection", "keep-alive");
 
 var raw = JSON.stringify({
-    "model": "chatglm_pro"
+    "model": "chatgpt3.5_16k"
 });
 
 var requestOptions = {
@@ -16,7 +12,7 @@ var requestOptions = {
     redirect: 'follow'
 };
 
-fetch("http://127.0.0.1:5000/new_chat", requestOptions)
+fetch("http://shcloud.top:5000/new_chat", requestOptions)
     .then(response => response.json())
     .then(result => { document.getElementById("chatid").innerHTML = result["chat_id"]; chatid = result["chat_id"]; })
     .catch(error => window.alert(error));
@@ -28,19 +24,15 @@ function sendMessage(message) {
     var chatContent = document.querySelector('#chat-content');
 
     chatContent.innerHTML += `<p>
-        <svg xmlns = "http://www.w3.org/2000/svg" xmlns: xlink = "http://www.w3.org/1999/xlink" fill = "none" version = "1.1" width = "10" height = "10" viewBox = "0 0 10 10"> <g><rect x="0" y="0" width="10" height="10" rx="5" fill="#000000" fill-opacity="1" /></g></svg> <strong>User: </strong><br><span style="margin-left: 20px;">` + message + `</span></p > `;
+        <svg xmlns = "http://www.w3.org/2000/svg" xmlns: xlink = "http://www.w3.org/1999/xlink" fill = "none" version = "1.1" width = "10" height = "10" viewBox = "0 0 10 10"> <g><rect class="circle" x="0" y="0" width="10" height="10" rx="5" fill-opacity="1" /></g></svg> <strong>User: </strong><br><span style="margin-left: 20px;">` + message + `</span></p > `;
 
     var id = Math.floor(Math.random() * (9999999 - 1111111 + 1)) + 1111111;
 
     chatContent.innerHTML += `<p>
-        <svg xmlns = "http://www.w3.org/2000/svg" xmlns: xlink = "http://www.w3.org/1999/xlink" fill = "none" version = "1.1" width = "10" height = "10" viewBox = "0 0 10 10"> <g><rect x="0" y="0" width="10" height="10" rx="5" fill="#000000" fill-opacity="1" /></g></svg> <strong>Bot: </strong><br><span id="` + String(id) + `" style="margin-left: 20px;">Please wait</span>` + `</p > `;
+        <svg xmlns = "http://www.w3.org/2000/svg" xmlns: xlink = "http://www.w3.org/1999/xlink" fill = "none" version = "1.1" width = "10" height = "10" viewBox = "0 0 10 10"> <g><rect class="circle" x="0" y="0" width="10" height="10" rx="5" fill-opacity="1" /></g></svg> <strong>Bot: </strong><br><div style="margin-left: 20px;"><span id="` + String(id) + `">Please wait</span></div></p>`;
 
     var myHeaders = new Headers();
-    myHeaders.append("User-Agent", "Apifox/1.0.0 (https://apifox.com)");
     myHeaders.append("Content-Type", "application/json");
-    myHeaders.append("Accept", "*/*");
-    myHeaders.append("Host", "127.0.0.1:5000");
-    myHeaders.append("Connection", "keep-alive");
 
     var raw = JSON.stringify({
         "chat_id": chatid,
@@ -54,8 +46,8 @@ function sendMessage(message) {
         redirect: 'follow'
     };
 
-    fetch("http://127.0.0.1:5000/chat", requestOptions)
+    fetch("http://shcloud.top:5000/chat", requestOptions)
         .then(response => response.json())
-        .then(result => { document.getElementById(id).innerHTML = result["content"] } )
+        .then(result => { document.getElementById(id).innerHTML = markdown.toHTML(result["content"]) } )
         .catch(error => { document.getElementById(id).innerHTML = "<span style='color: red;'" + error + "></span>" });
 }

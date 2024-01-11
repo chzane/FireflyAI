@@ -97,6 +97,10 @@ button {
     right: 10px;
 }
 
+.circle {
+    fill: #000000;
+}
+
 @media (prefers-color-scheme: dark) {
 
     html,
@@ -156,5 +160,9 @@ button {
         background-color: #000000;
         border: 1px solid #ffffff;
         padding: 0px 20px;
+    }
+
+    .circle {
+        fill: #ffffff;
     }
 }
