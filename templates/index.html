@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>Firefly AI</title>
+    <link href="img/logo.png" rel='icon' />
+    <link href="style/main.css" rel="stylesheet" type="text/css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes" />
+</head>
+
+<body>
+    <div id="chat-container">
+        <div id="chat-header">
+            <h1>Firefly AI</h1>
+            <button id="profile-button" onclick="">ChatID: <span id="chatid"></span></button>
+        </div>
+        <br />
+        <div align="center">
+            <button>代码模式</button>
+            <button>产品经理模式</button>
+            <button>学生模式</button>
+            <button>普通模式</button>
+        </div>
+        <br />
+        <div id="chat-content"></div>
+    
+        <div style="position: absolute;bottom: 0;max-width: 700px;" id="chat-input" align="center">
+            <textarea id="message" type="text" style="width: 90%;padding: 10px;margin: 0px;height: 100px;resize: none;" placeholder="输入你的问题和内容,按下 Enter 发送消息" ></textarea>
+            <Br />
+            <a style="width: 70%;">请遵守<a href="https://www.gov.cn/zhengce/zhengceku/202307/content_6891752.htm">生成式人工智能暂行管理办法</a></a>
+            <button onclick="sendMessage()" style="margin: 0px;">发送消息</button>
+        </div>
+    </div>
+
+    <script src="script/main.js"></script>
+</body>
+
+</html>
