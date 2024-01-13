@@ -1,13 +1,24 @@
-from flask import Flask, request, jsonify, url_for, render_template
+from flask import Flask, request, jsonify, url_for, render_template,Response, send_file
 from flask_cors import CORS
 import json
 import random
 import requests
 
+import mimetypes
+def get_http_type(filename):
+    # 获取文件的MIME类型
+    mime_type, _ = mimetypes.guess_type(filename)
+    if mime_type:
+        # 将MIME类型转换为HTTP类型（ Content-Type）
+        http_type = 'application/' + mime_type if mime_type.startswith('application/') else mime_type
+        return http_type
+    else:
+        # 如果无法确定MIME类型，返回None
+        return None
 
 app = Flask(__name__)
 
-CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
+CORS(app)
 
 model_list = {
     "qps5": [
@@ -52,9 +63,24 @@ model_list = {
     ]
 }
 
+@app.route("/<path:url_to>")
+def url_get(url_to):
+    full_url = url_to
+    print("./src/templates/"+full_url)
+    try:
+        response = Response()
+        o = open("/root/FireflyAI/src/templates/"+full_url, "rb")
+        response.data = o.read()
+        response.headers['Content-Type'] = get_http_type("/root/FireflyAI/src/templates/"+full_url)
+        return response
+    except Exception as e:
+        print(e)
+        return "404 Not Found"
+
 @app.route("/",  methods=['GET'])
 def home():
-    return render_template('index.html')
+    o = open("src/templates/index.html")
+    return o.read()
 
 @app.route('/new_chat', methods=['POST'])
 def new_chat():
@@ -126,4 +152,4 @@ def chat():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host="0.0.0.0", port=5000)
